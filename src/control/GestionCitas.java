@@ -1,15 +1,60 @@
 package control;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import Modelo.Cita;
+import Modelo.DAO;
+import Modelo.DiasDeLaSemana;
+import Modelo.MedicoActivo;
+import Modelo.Paciente;
 import adaptadores.AdaptadorArraylist;
 
 public class GestionCitas {
-	ArrayList<Cita> citasAtendidas = new ArrayList<Cita>();
-	ArrayList<Cita> citasPendientes = new ArrayList<Cita>();
+	private ArrayList<Cita> citasPendientes = new ArrayList<Cita>();
+	private DAO daoCitas=new DAO();
+	private String pathUltimoId="./Indentificadores/UltimoIdCita.cita";
+	
+	public Cita crearCita(Paciente paciente, MedicoActivo medico, LocalDateTime fechaCita, DiasDeLaSemana dia) {
+		String id=obtenerUltimoId();
+		
+		Cita cita=new Cita(id, paciente, medico, fechaCita, dia);
+		paciente.getCitas().add(cita);
+		citasPendientes.add(cita);
+		
+		grabarUltimoId(id);
+		
+		return null;
+	}
+
+	private String obtenerUltimoId() {
+		String id;
+		File file=new File(pathUltimoId);
+		
+		if(!file.exists()) {
+			grabarUltimoId("0");
+		}
+		id=(String) daoCitas.leer(pathUltimoId);
+		
+		return id;
+	}
+	
+	private boolean grabarUltimoId(String id) {
+		boolean grabado=true;
+		int idNumero;
+		
+		idNumero=Integer.parseInt(id);
+		idNumero++;
+		id=Integer.toString(idNumero);
+		
+		if(!daoCitas.grabar(pathUltimoId, id)) {
+			grabado=false;
+		}
+		
+		return grabado;
+	}
 
 	public String[] getDatosCita(Cita cita, int[] campos) {
 		String datos[] = { cita.getPaciente().getNombre(), cita.getMedico().getEspecialidad().name(),

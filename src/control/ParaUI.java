@@ -20,6 +20,7 @@ import Modelo.AlmacenPacientes;
 import Modelo.CirujanoActivo;
 import Modelo.Especialidades;
 import Modelo.Medico;
+import Modelo.MedicoActivo;
 import Modelo.Paciente;
 import vistaVentana.UIGazpacho;
 
@@ -28,11 +29,14 @@ public class ParaUI extends UIGazpacho {
 	AlmacenMedicos almacenMedicos=new AlmacenMedicos();
 	AlmacenPacientes almacenPacientes=new AlmacenPacientes();
 	AdministradorDePacientes pacientes= new AdministradorDePacientes();
+	GestionHorario horarios=new GestionHorario();
+	GestionCitas citas= new GestionCitas();
 	
 	LocalDateTime fechaActual = LocalDateTime.of(2020, 01, 01, 8, 00);
 	
 	public ParaUI() {
 		almacenMedicos.volcarDatosCirujanos();
+		almacenMedicos.volcarDatosMedicosActivos();
 		almacenPacientes.obetenerMapa();
 		refrescarComboBox();
 		
@@ -135,8 +139,28 @@ public class ParaUI extends UIGazpacho {
 					getBajaMedico().getSeleccion().getCmbID().addItem(cirujano.getIdPersona());
 					getBajaMedico().getSeleccion().getCmbNombre().addItem(cirujano.getNombre());
 				}else {
-					//personal.darDeAltaMedicoActivo(getAltaMedico().getTxtNombre()+getAltaMedico().getTextApellidos(), 
-					//		getAltaMedico().getTextTelefono(), getAltaMedico().getTextDireccion(), getAltaMedico().getAltaEspecialidad().getSelectedItem(), horario)
+					if(getAltaMedico().getAltaEspecialidad().getSelectedItem().toString()=="AtencionPrimaria") {  
+						MedicoActivo medicoAP=personal.darDeAltaMedicoActivo(getAltaMedico().getTxtNombre()+" "+getAltaMedico().getTextApellidos(),
+								getAltaMedico().getTextTelefono(), getAltaMedico().getTextDireccion(), Especialidades.AtencionPrimaria);
+						Medico medico=new Medico(medicoAP.getIdPersona(), medicoAP.getNombre(), medicoAP.getDireccion(), medicoAP.getTelefono(), medicoAP.getEspecialidad());
+						almacenMedicos.addMedico(medico);
+						horarios.ocuparConsultaPrimaria(Integer.parseInt(getAltaMedico().getComboBoxHorario().getSelectedItem().toString())-1, medicoAP);
+						almacenMedicos.addMedicoActivo(medicoAP);
+						getConsultaDatosMedico().getSeleccion().getCmbID().addItem(medicoAP.getIdPersona());
+						getConsultaDatosMedico().getSeleccion().getCmbNombre().addItem(medicoAP.getNombre());
+						getBajaMedico().getSeleccion().getCmbID().addItem(medicoAP.getIdPersona());
+						getBajaMedico().getSeleccion().getCmbNombre().addItem(medicoAP.getNombre());
+					}else {
+						MedicoActivo medicoES=personal.darDeAltaMedicoActivo(getAltaMedico().getTxtNombre()+" "+getAltaMedico().getTextApellidos(),
+								getAltaMedico().getTextTelefono(), getAltaMedico().getTextDireccion(), Especialidades.valueOf(getAltaMedico().getAltaEspecialidad().getSelectedItem().toString()));
+						Medico medico=new Medico(medicoES.getIdPersona(), medicoES.getNombre(), medicoES.getDireccion(), medicoES.getTelefono(), medicoES.getEspecialidad());
+						horarios.ocuparConsultaEspecialista(Integer.parseInt(getAltaMedico().getComboBoxHorario().getSelectedItem().toString())-1, medicoES);
+						almacenMedicos.addMedicoActivo(medicoES);
+						getConsultaDatosMedico().getSeleccion().getCmbID().addItem(medicoES.getIdPersona());
+						getConsultaDatosMedico().getSeleccion().getCmbNombre().addItem(medicoES.getNombre());
+						getBajaMedico().getSeleccion().getCmbID().addItem(medicoES.getIdPersona());
+						getBajaMedico().getSeleccion().getCmbNombre().addItem(medicoES.getNombre());
+					}
 				}
 				
 				}
@@ -158,6 +182,18 @@ public class ParaUI extends UIGazpacho {
 							getBajaMedico().setTextEspecialidad(cirujano.getEspecialidad().toString());
 						}
 					}
+					for (Iterator <MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator();iterator.hasNext();) {
+						MedicoActivo medico = (MedicoActivo) iterator.next();
+						
+						if(medico.getIdPersona().equals(getBajaMedico().getSeleccion().getCmbID().getSelectedItem())) {
+							getBajaMedico().setTextNombre(medico.getNombre());
+							getBajaMedico().setTextApellidos(medico.getNombre());
+							getBajaMedico().setTextDireccion(medico.getDireccion());
+							getBajaMedico().setTextTelefono(medico.getTelefono());
+							getBajaMedico().setTextEspecialidad(medico.getEspecialidad().toString());
+//							getBajaMedico().getBajaHorario().setText(medico.getHorario().toString());
+						}
+					}
 			}
 		});
 		
@@ -174,6 +210,18 @@ public class ParaUI extends UIGazpacho {
 							getBajaMedico().setTextTelefono(cirujano.getTelefono());
 							getBajaMedico().setTextEspecialidad(cirujano.getEspecialidad().toString());
 						
+					}
+				}
+				
+				for (Iterator <MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator();iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
+					if(medico.getNombre().equals(getBajaMedico().getSeleccion().getCmbNombre().getSelectedItem())) {
+						getBajaMedico().setTextNombre(medico.getNombre());
+						getBajaMedico().setTextApellidos(medico.getNombre());
+						getBajaMedico().setTextDireccion(medico.getDireccion());
+						getBajaMedico().setTextTelefono(medico.getTelefono());
+						getBajaMedico().setTextEspecialidad(medico.getEspecialidad().toString());
+//						getBajaMedico().getBajaHorario().setText(medico.getHorario().toString());
 					}
 				}
 			}
@@ -195,13 +243,26 @@ public class ParaUI extends UIGazpacho {
 							System.out.println(almacenMedicos.eliminarCirujano(cirujano));
 							getBajaMedico().getSeleccion().getCmbID().removeItem(id);
 							getBajaMedico().getSeleccion().getCmbNombre().removeItem(nombre);
-							
-							
+							getConsultaDatosMedico().getSeleccion().getCmbID().removeItem(id);
+							getConsultaDatosMedico().getSeleccion().getCmbNombre().removeItem(nombre);	
+						}
+					}
+				}else {
+					for (Iterator <MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator();iterator.hasNext();) {
+						MedicoActivo medico = (MedicoActivo) iterator.next();
+						if(medico.getIdPersona().equals(getBajaMedico().getSeleccion().getCmbID().getSelectedItem().toString()) || 
+								medico.getNombre().equals(getBajaMedico().getSeleccion().getCmbNombre().getSelectedItem().toString())	) {
+							String id=medico.getIdPersona();
+							String nombre=medico.getNombre();
+							almacenMedicos.eliminarMedicoActivo(medico);
+							getBajaMedico().getSeleccion().getCmbID().removeItem(id);
+							getBajaMedico().getSeleccion().getCmbNombre().removeItem(nombre);
+							getConsultaDatosMedico().getSeleccion().getCmbID().removeItem(id);
+							getConsultaDatosMedico().getSeleccion().getCmbNombre().removeItem(nombre);
+						}
 						}
 					}
 				}
-				
-			}
 		});
 		
 		getPedirCitaEspecialista().getMensaje().getBtnAplicar().addActionListener(new ActionListener() {
@@ -209,6 +270,27 @@ public class ParaUI extends UIGazpacho {
 				//TODO
 			}
 		});
+		
+		getPedirCitaPrimaria().getHorario().getCmbMedico().addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				for (MedicoActivo medico : almacenMedicos.obtenerListaMedicosActivos()) {
+					if(medico.equals(getPedirCitaPrimaria().getHorario().getCmbMedico().getSelectedItem())) {
+						getPedirCitaPrimaria().getHorario().asignarHorario(medico.getHorario().getHorarioSemanal());
+					}
+				}
+			}
+		});
+		
+//		getPedirCitaPrimaria().getMensajePedirCitaPrimaria().getBtnAplicar().addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				//TODO
+//				
+//			}
+//		});
 		
 		
 		getConsultaDatosMedico().getSeleccion().getCmbID().addItemListener(new ItemListener() {
@@ -226,6 +308,19 @@ public class ParaUI extends UIGazpacho {
 						getConsultaDatosMedico().setTextEspecialidad(cirujano.getEspecialidad().toString());
 					}
 				}
+				for (Iterator <MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator();iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
+					
+					if(medico.getIdPersona().equals(getConsultaDatosMedico().getSeleccion().getCmbID().getSelectedItem())) {
+						getConsultaDatosMedico().setTextNombre(medico.getNombre());
+						getConsultaDatosMedico().setTextApellidos(medico.getNombre());
+						getConsultaDatosMedico().setTextDireccion(medico.getDireccion());
+						getConsultaDatosMedico().setTextTelefono(medico.getTelefono());
+						getConsultaDatosMedico().setTextEspecialidad(medico.getEspecialidad().toString());
+//						getConsultaDatosMedico().getAltaHorario().setText(medico.getHorario().toString());
+					}
+				}
+				
 			}
 		});
 		
@@ -242,6 +337,17 @@ public class ParaUI extends UIGazpacho {
 						getConsultaDatosMedico().setTextDireccion(cirujano.getDireccion());
 						getConsultaDatosMedico().setTextTelefono(cirujano.getTelefono());
 						getConsultaDatosMedico().setTextEspecialidad(cirujano.getEspecialidad().toString());
+					}
+				}
+				for (Iterator <MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator();iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
+					if(medico.getNombre().equals(getConsultaDatosMedico().getSeleccion().getCmbNombre().getSelectedItem())) {
+						getConsultaDatosMedico().setTextNombre(medico.getNombre());
+						getConsultaDatosMedico().setTextApellidos(medico.getNombre());
+						getConsultaDatosMedico().setTextDireccion(medico.getDireccion());
+						getConsultaDatosMedico().setTextTelefono(medico.getTelefono());
+						getConsultaDatosMedico().setTextEspecialidad(medico.getEspecialidad().toString());
+//						getConsultaDatosMedico().getAltaHorario().setText(medico.getHorario().toString());
 					}
 				}
 			}
@@ -265,16 +371,28 @@ public class ParaUI extends UIGazpacho {
 			getBajaMedico().getSeleccion().getCmbID().addItem(cirujanoActivo.getIdPersona());
 			getBajaMedico().getSeleccion().getCmbNombre().addItem(cirujanoActivo.getNombre());
 		}
+		for (Iterator<MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos().iterator(); iterator.hasNext();) {
+			MedicoActivo medico = (MedicoActivo) iterator.next();
+			getConsultaDatosMedico().getSeleccion().getCmbID().addItem(medico.getIdPersona());
+			getConsultaDatosMedico().getSeleccion().getCmbNombre().addItem(medico.getNombre());
+			getBajaMedico().getSeleccion().getCmbID().addItem(medico.getIdPersona());
+			getBajaMedico().getSeleccion().getCmbNombre().addItem(medico.getNombre());
+			if(medico.getEspecialidad().equals(Especialidades.AtencionPrimaria)) {
+				getPedirCitaPrimaria().getHorario().getCmbMedico().addItem(medico);
+			}
+		}
 		Collection<String> ids= almacenPacientes.obetenerMapa().values();
 		Collection<String> nombres=almacenPacientes.obetenerMapa().keySet();
 		
 		for (String id : ids) {
 			getConsultaDatosPacientes().getSeleccion().getCmbID().addItem(id);
 			getBajaPaciente().getSeleccion().getCmbID().addItem(id);
+			getPedirCitaPrimaria().getSeleccion().getCmbID().addItem(id);
 		}
 		for (String nombre : nombres) {
 			getConsultaDatosPacientes().getSeleccion().getCmbNombre().addItem(nombre);
 			getBajaPaciente().getSeleccion().getCmbNombre().addItem(nombre);
+			getPedirCitaPrimaria().getSeleccion().getCmbNombre().addItem(nombre);
 		}
 	}
 }

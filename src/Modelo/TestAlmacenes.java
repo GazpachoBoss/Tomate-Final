@@ -94,7 +94,7 @@ class TestAlmacenes{
 	}
 	
 	//funciona y depurando funciona como es de esperar
-	@Test
+	@Ignore
 	void testObtenerListasMedicos() {
 	//	ArrayList<Medico>medicos=almacenMedicos.obtenerListaMedicos();
 	//	ArrayList<MedicoActivo>medicosActivos=almacenMedicos.obtenerListaMedicosActivos();
@@ -103,5 +103,19 @@ class TestAlmacenes{
 		//assertFalse(medicos.isEmpty());
 		//assertFalse(medicosActivos.isEmpty());
 		assertFalse(cirujanos.isEmpty());
+	}
+	
+	@Test
+	void testHorario() {
+		ArrayList<MedicoActivo> medicosActivos=almacenMedicos.obtenerListaMedicosActivos();
+		
+		for (MedicoActivo medicoActivo : medicosActivos) {
+			int matriz[][]=medicoActivo.getHorario().getHorarioSemanal();
+			for (int i = 0; i < matriz.length; i++) {
+				for (int j = 0; j < matriz[i].length; j++) {
+					System.out.println(matriz[i][j]);
+				}
+			}
+		}
 	}
 }

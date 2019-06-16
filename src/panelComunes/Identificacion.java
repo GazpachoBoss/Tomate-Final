@@ -18,6 +18,7 @@ public class Identificacion extends JPanel{
 	private JTextField textTelefono;
 	
 	private Stack<JTextField> misTxtsFields = new Stack<>();
+	private JLabel lblNacimiento;
 	
 	/**
 	 * Create the frame.
@@ -34,7 +35,7 @@ public class Identificacion extends JPanel{
 		
 		JLabel lblDireccion = new JLabel("Direccion");
 		
-		JLabel lblNacimiento = new JLabel("Nacimiento");
+		lblNacimiento = new JLabel("Nacimiento");
 		
 		JLabel lblTelefono = new JLabel("Telefono");
 		
@@ -123,6 +124,11 @@ public class Identificacion extends JPanel{
 		}
 			
 	}
+	
+	public JLabel getLblNacimiento() {
+		return lblNacimiento;
+	}
+
 	public JPanel getContentPane() {
 		return this;
 	}

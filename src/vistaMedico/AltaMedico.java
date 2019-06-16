@@ -15,13 +15,11 @@ import panelComunes.Identificacion;
 import panelComunes.Mensaje;
 
 public class AltaMedico extends JPanel {
-
-	private JTextField altaConsulta;
-	private JTextField altaHorario;
 	private JComboBox altaEspecialidad;
 	
 	Identificacion identificacion;
 	Mensaje mensaje;
+	private JComboBox cmbHorarioMedico;
 
 	/**
 	 * Create the frame.
@@ -39,22 +37,21 @@ public class AltaMedico extends JPanel {
 		altaEspecialidad.addItem("Oncologia");
 		altaEspecialidad.addItem("Cirujia");
 
-		JLabel lblConsulta = new JLabel("Consulta");
-
 		JLabel lblHorario = new JLabel("Horario");
-
-		altaConsulta = new JTextField();
-		altaConsulta.setColumns(10);
-
-		altaHorario = new JTextField();
-		altaHorario.setColumns(10);
 
 		JLabel lblAltaMedico = new JLabel("Alta Medico");
 		lblAltaMedico.setFont(new Font("Tahoma", Font.PLAIN, 24));
 
 		identificacion = new Identificacion();
-
+		identificacion.getTxtNacimiento().setVisible(false);
+		identificacion.getLblNacimiento().setVisible(false);
 		mensaje = new Mensaje();
+		
+		cmbHorarioMedico = new JComboBox();
+		
+		cmbHorarioMedico.addItem("1");
+		cmbHorarioMedico.addItem("2");
+		
 		GroupLayout gl_contentPane = new GroupLayout(this);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -66,25 +63,20 @@ public class AltaMedico extends JPanel {
 					.addGap(101)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(identificacion, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+							.addComponent(identificacion, GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(9)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblConsulta)
 										.addComponent(lblEspecialidad)
 										.addComponent(lblHorario))
 									.addGap(18)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(altaHorario, 356, 356, 356)
-										.addComponent(altaConsulta, 356, 356, 356)
-										.addComponent(altaEspecialidad, 0, 356, Short.MAX_VALUE))
-									.addGap(11))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(mensaje, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
-									.addGap(3)))
+										.addComponent(cmbHorarioMedico, 0, 379, Short.MAX_VALUE)
+										.addComponent(altaEspecialidad, 0, 379, Short.MAX_VALUE)))
+								.addComponent(mensaje, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
 							.addGap(92))))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -93,26 +85,28 @@ public class AltaMedico extends JPanel {
 					.addGap(19)
 					.addComponent(lblAltaMedico)
 					.addGap(52)
-					.addComponent(identificacion, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(identificacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(altaEspecialidad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEspecialidad))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(altaConsulta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblConsulta))
-					.addGap(9)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblHorario)
-						.addComponent(altaHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(55)
+						.addComponent(cmbHorarioMedico, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(35)
 					.addComponent(mensaje, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(65, Short.MAX_VALUE))
+					.addGap(48))
 		);
 		this.setLayout(gl_contentPane);
 	}
 	
+	
+	public JComboBox getComboBoxHorario() {
+		return cmbHorarioMedico;
+	}
+
+
 	public Identificacion getIdentificacionAltaMedico() {
 		return identificacion;
 	}
@@ -153,20 +147,15 @@ public class AltaMedico extends JPanel {
 		return mensaje.getTextField().getText();
 	}
 
-	public JTextField getAltaConsulta() {
-		return altaConsulta;
+	
+	
+
+	public Identificacion getIdentificacion() {
+		return identificacion;
 	}
 
-	public void setAltaConsulta(JTextField altaConsulta) {
-		this.altaConsulta = altaConsulta;
-	}
-
-	public JTextField getAltaHorario() {
-		return altaHorario;
-	}
-
-	public void setAltaHorario(JTextField altaHorario) {
-		this.altaHorario = altaHorario;
+	public Mensaje getMensaje() {
+		return mensaje;
 	}
 
 	public JComboBox getAltaEspecialidad() {
@@ -176,5 +165,4 @@ public class AltaMedico extends JPanel {
 	public void setAltaEspecialidad(JComboBox altaEspecialidad) {
 		this.altaEspecialidad = altaEspecialidad;
 	}
-
 }

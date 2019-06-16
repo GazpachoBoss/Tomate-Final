@@ -1,10 +1,11 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Horario {
+public class Horario implements Serializable{
 	private int horarioSemanal[][] = new int[4][5];
 	private LocalTime horaTrabajo[];
 	private DiasDeLaSemana diaTrabajo[];
@@ -47,5 +48,9 @@ public class Horario {
 				}
 			}
 		}
+	}
+	
+	public String toString() {
+		return horaTrabajo[0].toString();
 	}
 }

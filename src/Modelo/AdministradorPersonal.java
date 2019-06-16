@@ -6,9 +6,9 @@ public class AdministradorPersonal {
 	private DAO daoMedicos=new DAO();
 	private String path="./Indentificadores/UltimoIdPersona.persona";
 	
-	public MedicoActivo darDeAltaMedicoActivo(String nombre, String telefono, String direccion, Especialidades especialidad, Consulta consulta, Horario horario) {
+	public MedicoActivo darDeAltaMedicoActivo(String nombre, String telefono, String direccion, Especialidades especialidad) {
 		String id=obtenerUltimoId();
-		MedicoActivo medico = new MedicoActivo(obtenerUltimoId(), nombre, direccion, telefono, especialidad, consulta, horario);
+		MedicoActivo medico = new MedicoActivo(obtenerUltimoId(), nombre, direccion, telefono, especialidad);
 		
 		grabarUltimoId(id);
 		return medico;

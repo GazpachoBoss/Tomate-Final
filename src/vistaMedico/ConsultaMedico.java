@@ -18,7 +18,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class ConsultaMedico extends JPanel {
 
 	private JTextField altaEspecialidad;
-	private JTextField altaConsulta;
 	private JTextField altaHorario;
 	private Seleccion seleccion;
 
@@ -37,29 +36,24 @@ public class ConsultaMedico extends JPanel {
 		JLabel lblEspecialidad = new JLabel("Especialidad");
 		lblEspecialidad.setBounds(132, 300, 70, 16);
 
-		JLabel lblConsulta = new JLabel("Consulta");
-		lblConsulta.setBounds(132, 329, 49, 16);
-
 		JLabel lblHorario = new JLabel("Horario");
-		lblHorario.setBounds(132, 358, 42, 16);
+		lblHorario.setBounds(132, 333, 42, 16);
 
 		altaEspecialidad = new JTextField();
 		altaEspecialidad.setBounds(214, 297, 162, 22);
 		altaEspecialidad.setEditable(false);
 		altaEspecialidad.setColumns(10);
 
-		altaConsulta = new JTextField();
-		altaConsulta.setBounds(214, 326, 162, 22);
-		altaConsulta.setEditable(false);
-		altaConsulta.setColumns(10);
-
 		altaHorario = new JTextField();
-		altaHorario.setBounds(214, 355, 162, 22);
+		altaHorario.setBounds(214, 330, 162, 22);
 		altaHorario.setEditable(false);
 		altaHorario.setColumns(10);
 		seleccion = new Seleccion();
 		seleccion.setBounds(122, 66, 395, 48);
 		identificacion = new Identificacion();
+		identificacion.getTxtNacimiento().setVisible(false);
+		identificacion.getLblNacimiento().setVisible(false);
+
 		identificacion.setBounds(122, 127, 478, 160);
 		int[] camposDeshabilitados = { 0, 1, 2, 3, 4 };
 		identificacion.deshabilitarCampo(camposDeshabilitados);
@@ -67,8 +61,6 @@ public class ConsultaMedico extends JPanel {
 		add(lblEspecialidad);
 		add(altaEspecialidad);
 		add(lblHorario);
-		add(lblConsulta);
-		add(altaConsulta);
 		add(altaHorario);
 		add(lblConsultaMedico);
 		add(identificacion);
@@ -94,27 +86,27 @@ public class ConsultaMedico extends JPanel {
 	public void setTextApellidos(String apellidos) {
 		identificacion.getTextApellidos().setText(apellidos);
 	}
-	
+
 	public void setTextNombre(String nombre) {
 		identificacion.getTextNombre().setText(nombre);
 	}
-	
+
 	public void setTextDireccion(String direccion) {
 		identificacion.getTextDireccion().setText(direccion);
 	}
-	
+
 	public void setTextTelefono(String telefono) {
 		identificacion.getTextTelefono().setText(telefono);
 	}
-	
+
 	public void setTextNacimiento(String nacimiento) {
 		identificacion.getTxtNacimiento().setText(nacimiento);
 	}
-	
+
 	public void setTextEspecialidad(String especialidad) {
 		altaEspecialidad.setText(especialidad);
 	}
-	
+
 	public String getTextApellidos() {
 		return identificacion.getTextApellidos().getText();
 	}
@@ -137,14 +129,6 @@ public class ConsultaMedico extends JPanel {
 
 	public void setAltaEspecialidad(JTextField altaEspecialidad) {
 		this.altaEspecialidad = altaEspecialidad;
-	}
-
-	public JTextField getAltaConsulta() {
-		return altaConsulta;
-	}
-
-	public void setAltaConsulta(JTextField altaConsulta) {
-		this.altaConsulta = altaConsulta;
 	}
 
 	public JTextField getAltaHorario() {

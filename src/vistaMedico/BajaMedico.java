@@ -14,12 +14,9 @@ import panelComunes.Mensaje;
 import panelComunes.Seleccion;
 
 public class BajaMedico extends JPanel {
-	private JTextField bajaConsulta;
 	private JTextField bajaHorario;
 	private JTextField txtEspecialidad;
 	private Seleccion seleccion;
-
-	
 
 	Mensaje mensaje;
 	Identificacion identificacion;
@@ -32,13 +29,7 @@ public class BajaMedico extends JPanel {
 
 		JLabel lblEspecialidad = new JLabel("Especialidad");
 
-		JLabel lblConsulta = new JLabel("Consulta");
-
 		JLabel lblHorario = new JLabel("Horario");
-
-		bajaConsulta = new JTextField();
-		bajaConsulta.setEditable(false);
-		bajaConsulta.setColumns(10);
 
 		bajaHorario = new JTextField();
 		bajaHorario.setEditable(false);
@@ -50,6 +41,8 @@ public class BajaMedico extends JPanel {
 		seleccion = new Seleccion();
 		mensaje = new Mensaje();
 		identificacion = new Identificacion();
+		identificacion.getLblNacimiento().setVisible(false);
+		identificacion.getTxtNacimiento().setVisible(false);
 
 		int[] camposDeshabilitados = { 0, 1, 2, 3, 4 };
 		identificacion.deshabilitarCampo(camposDeshabilitados);
@@ -59,7 +52,7 @@ public class BajaMedico extends JPanel {
 		txtEspecialidad.setColumns(10);
 
 		GroupLayout gl_contentPane = new GroupLayout(this);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPane
 				.createSequentialGroup()
 				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup().addGap(133)
@@ -67,22 +60,20 @@ public class BajaMedico extends JPanel {
 										.addComponent(identificacion, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
 										.addComponent(seleccion, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)))
 						.addGroup(gl_contentPane.createSequentialGroup().addGap(143)
-								.addGroup(gl_contentPane
-										.createParallelGroup(Alignment.LEADING).addComponent(lblEspecialidad)
-										.addComponent(lblConsulta).addComponent(lblHorario))
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblEspecialidad).addComponent(lblHorario))
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(bajaHorario, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-										.addComponent(bajaConsulta, 145, 145, Short.MAX_VALUE)
-										.addComponent(txtEspecialidad, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+										.addComponent(bajaHorario, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+										.addComponent(txtEspecialidad, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
 								.addGap(191)))
 				.addGap(103))
 				.addGroup(
 						gl_contentPane.createSequentialGroup().addContainerGap()
 								.addComponent(lblAltaMedico, GroupLayout.PREFERRED_SIZE, 187,
 										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(458, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup().addGap(37)
+								.addContainerGap(460, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(37)
 						.addComponent(mensaje, GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE).addGap(34)));
 		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
 				.createSequentialGroup().addContainerGap().addComponent(lblAltaMedico).addGap(41)
@@ -94,36 +85,32 @@ public class BajaMedico extends JPanel {
 						.addComponent(txtEspecialidad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE))
 				.addGap(18)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE).addComponent(lblConsulta).addComponent(
-						bajaConsulta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(lblHorario).addComponent(
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE).addComponent(lblHorario).addComponent(
 						bajaHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGap(18).addComponent(mensaje, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGap(30)));
+				.addGap(49).addComponent(mensaje, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE).addGap(30)));
 		this.setLayout(gl_contentPane);
 	}
-	
+
 	public void setTextApellidos(String apellidos) {
 		identificacion.getTextApellidos().setText(apellidos);
 	}
-	
+
 	public void setTextNombre(String nombre) {
 		identificacion.getTextNombre().setText(nombre);
 	}
-	
+
 	public void setTextDireccion(String direccion) {
 		identificacion.getTextDireccion().setText(direccion);
 	}
-	
+
 	public void setTextTelefono(String telefono) {
 		identificacion.getTextTelefono().setText(telefono);
 	}
-	
+
 	public void setTextNacimiento(String nacimiento) {
 		identificacion.getTxtNacimiento().setText(nacimiento);
 	}
-	
+
 	public void setTextEspecialidad(String especialidad) {
 		txtEspecialidad.setText(especialidad);
 	}
@@ -168,14 +155,6 @@ public class BajaMedico extends JPanel {
 		return mensaje.getTextField().getText();
 	}
 
-	public JTextField getBajaConsulta() {
-		return bajaConsulta;
-	}
-
-	public void setBajaConsulta(JTextField bajaConsulta) {
-		this.bajaConsulta = bajaConsulta;
-	}
-
 	public JTextField getBajaHorario() {
 		return bajaHorario;
 	}
@@ -191,10 +170,9 @@ public class BajaMedico extends JPanel {
 	public void setTxtEspecialidad(JTextField txtEspecialidad) {
 		this.txtEspecialidad = txtEspecialidad;
 	}
-	
+
 	public Seleccion getSeleccion() {
 		return seleccion;
 	}
-
 
 }

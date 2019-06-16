@@ -21,7 +21,7 @@ public class VistaCitaIssam extends JPanel {
 
 	private JPanel panel;
 	private JButton boton;
-	Stack<JButton> botonera=new Stack<>();
+	private JButton[][]botonera = new JButton[4][5];
 	private JComboBox cmbMedico;
 	private JLabel lblHoraUno;
 	private JLabel lblHoraDos;
@@ -117,15 +117,26 @@ public class VistaCitaIssam extends JPanel {
 		this.setLayout(gl_contentPane);
 	}
 	private void crearBotonera() {
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 5; j++) {
 				boton=new JButton();
-				botonera.add(boton);
+				botonera[i][j]=boton;
 				panel.add(boton);
 			}
 			
 		}
 		}
+	
+	public void asignarHorario(int[][]matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j]==0) {
+                    botonera[i][j].setVisible(false);
+                }
+            }
+        }
+    }
+	
 	public JComboBox getCmbMedico() {
 		return cmbMedico;
 	}

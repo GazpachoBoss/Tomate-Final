@@ -16,13 +16,15 @@ import java.awt.BorderLayout;
 
 public class PedirCitaPrimaria extends JPanel {
 	Mensaje mensaje;
+	Seleccion seleccion;
+	VistaCitaIssam horario;
 
 	/**
 	 * Create the panel.
 	 */
 	public PedirCitaPrimaria() {
-		Seleccion seleccion = new Seleccion();
-		VistaCitaIssam horario = new VistaCitaIssam();
+		seleccion = new Seleccion();
+		horario= new VistaCitaIssam();
 		Mensaje mensaje = new Mensaje();
 		
 		JLabel lblNewLabel = new JLabel("Cita Atencion Primaria");
@@ -72,5 +74,12 @@ public class PedirCitaPrimaria extends JPanel {
 		return mensaje.getTextField().getText();
 	}
 
+	public Seleccion getSeleccion() {
+		return seleccion;
+	}
+
+	public VistaCitaIssam getHorario() {
+		return horario;
+	}
 
 }

@@ -13,7 +13,7 @@ public class Cita implements Serializable {
 	private String observaciones;
 	private LocalDateTime fechaCita;
 
-	public Cita(String idCita, Paciente paciente, Medico medico, LocalDateTime fechaCita, DiasDeLaSemana dia) {
+	public Cita(String idCita, Paciente paciente, MedicoActivo medico, LocalDateTime fechaCita, DiasDeLaSemana dia) {
 		super();
 		this.idCita = idCita;
 		this.medico = medico;

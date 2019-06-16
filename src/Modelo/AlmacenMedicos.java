@@ -23,6 +23,13 @@ public class AlmacenMedicos{
 		pathCirujanos="./Medicos/ListaCirujanos.medico";
 	}
 	
+	public void volcarDatosMedicosActivos() {
+		File file=new File(pathMedicosActivos);
+		if(file.canRead()) {
+			medicosActivos=(ArrayList<MedicoActivo>) daoMedicos.leer(pathMedicosActivos);
+		}
+	}
+	
 	public void volcarDatosCirujanos() {
 		File file=new File(pathCirujanos);
 		if(file.canRead()) {
@@ -71,9 +78,14 @@ public class AlmacenMedicos{
 		boolean eliminado=false;
 		
 		eliminado=medicosActivos.remove(medicoActivo);
+		System.out.println(eliminado);
 		if(!daoMedicos.grabar(pathMedicosActivos, medicoActivo) && eliminado) {
 			medicosActivos.add(medicoActivo);
 			eliminado=false;
+		}
+		
+		if(medicosActivos.isEmpty()) {
+			daoMedicos.borrarFile(pathMedicosActivos);
 		}
 		
 		return eliminado;
@@ -83,11 +95,15 @@ public class AlmacenMedicos{
 		boolean eliminado=false;
 		System.out.println(cirujanos.contains(cirujano));
 		
+		
 		eliminado=cirujanos.remove(cirujano);
 		System.out.println(eliminado);
 		if(!daoMedicos.grabar(pathCirujanos, cirujanos) && eliminado) {
 			cirujanos.add(cirujano);
 			eliminado=false;
+		}
+		if(cirujanos.isEmpty()) {
+			daoMedicos.borrarFile(pathCirujanos);
 		}
 		
 		return eliminado;

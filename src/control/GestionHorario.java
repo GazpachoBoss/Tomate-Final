@@ -66,7 +66,6 @@ public class GestionHorario {
 
 	public void ocuparConsultaPrimaria(int turno, MedicoActivo medico) {
 		consultasPrimaria[turno] += 1;
-		System.out.println(horariosPrimaria[turno+1]);
 		medico.setHorario(horariosPrimaria[turno]);
 	}
 	public boolean consultaDisponibleEspecialista(int turno) {

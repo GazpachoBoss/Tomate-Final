@@ -20,6 +20,19 @@ public class Horario implements Serializable{
 			}
 		}
 	}
+	public LocalDateTime getFechaCita() {
+		LocalTime hora;
+		LocalDateTime dia;
+		for (int i = 0; i < horarioSemanal.length; i++) {
+			for (int j = 0; j < horarioSemanal[i].length; j++) {
+				if(horarioSemanal[i][j]==2) {
+					hora=horaTrabajo[i];
+					dia=LocalDateTime.of(LocalDate.now().getYear(),LocalDate.now().getMonth(),0,hora.getHour(),hora.getMinute());
+				}
+			}
+		}
+		return null;
+		}
 
 	public int[][] getHorarioSemanal() {
 		return horarioSemanal;
@@ -32,9 +45,19 @@ public class Horario implements Serializable{
 	public DiasDeLaSemana[] getDiaTrabajo() {
 		return diaTrabajo;
 	}
-
+	private boolean canCita() {
+		int contador=0;
+		for (int i = 0; i < horarioSemanal.length; i++) {
+			for (int j = 0; j < horarioSemanal.length; j++) {
+				if (horarioSemanal[i][j]==2) {
+					contador++;
+				}
+			}
+		}
+		return contador<1;
+	}
 	public void seleccionarDia (int x,int y) {
-		if (horarioSemanal[x][y]!=2&&horarioSemanal[x][y]!=3) {
+		if (horarioSemanal[x][y]!=2&&horarioSemanal[x][y]!=3&&canCita()) {
 			horarioSemanal[x][y]=2;
 		}else {
 		horarioSemanal[x][y]=1;
@@ -49,8 +72,12 @@ public class Horario implements Serializable{
 			}
 		}
 	}
-	
-	public String toString() {
-		return horaTrabajo[0].toString();
+	private void getDia(int x) {
+		String retorno="";
+		for (int i = 0; i < diaTrabajo.length; i++) {
+			if(diaTrabajo[i].getValor()==x) {
+			retorno=diaTrabajo[i].name();
+			}
+		}
 	}
 }

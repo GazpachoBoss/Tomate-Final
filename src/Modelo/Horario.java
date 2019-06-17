@@ -7,6 +7,8 @@ import java.time.LocalTime;
 
 public class Horario implements Serializable{
 	private int horarioSemanal[][] = new int[4][5];
+	private DiasDeLaSemana[] diasSemana = { DiasDeLaSemana.Monday, DiasDeLaSemana.Tuesday, DiasDeLaSemana.Wednesday,
+            DiasDeLaSemana.ThursDay, DiasDeLaSemana.Friday };
 	private LocalTime horaTrabajo[];
 	private DiasDeLaSemana diaTrabajo[];
 
@@ -21,18 +23,20 @@ public class Horario implements Serializable{
 		}
 	}
 	public LocalDateTime getFechaCita() {
-		LocalTime hora;
-		LocalDateTime dia;
-		for (int i = 0; i < horarioSemanal.length; i++) {
-			for (int j = 0; j < horarioSemanal[i].length; j++) {
-				if(horarioSemanal[i][j]==2) {
-					hora=horaTrabajo[i];
-					dia=LocalDateTime.of(LocalDate.now().getYear(),LocalDate.now().getMonth(),0,hora.getHour(),hora.getMinute());
-				}
-			}
-		}
-		return null;
-		}
+        LocalTime hora;
+        LocalDateTime dia = null;
+        int dias=0;
+        for (int i = 0; i < horarioSemanal.length; i++) {
+            for (int j = 0; j < horarioSemanal[i].length; j++) {
+                if(horarioSemanal[i][j]==2) {
+                    dias=diasSemana[i].getValor()-((LocalDate.now().getDayOfMonth()+5)%7);
+                    hora=horaTrabajo[i];
+                    dia=LocalDateTime.of(LocalDate.now().getYear(),LocalDate.now().getMonth(),LocalDate.now().getDayOfMonth()+dias,hora.getHour(),hora.getMinute());
+                }
+            }
+        }
+        return dia;
+        }
 
 	public int[][] getHorarioSemanal() {
 		return horarioSemanal;
@@ -72,12 +76,16 @@ public class Horario implements Serializable{
 			}
 		}
 	}
-	private void getDia(int x) {
-		String retorno="";
-		for (int i = 0; i < diaTrabajo.length; i++) {
-			if(diaTrabajo[i].getValor()==x) {
-			retorno=diaTrabajo[i].name();
-			}
-		}
-	}
+	public DiasDeLaSemana getDia() {
+        DiasDeLaSemana retorno = null;
+        for (int i = 0; i < horarioSemanal.length; i++) {
+            for (int j = 0; j < horarioSemanal.length; j++) {
+                if (horarioSemanal[i][j] == 2) {
+                    retorno = diasSemana[i];
+                }
+            }
+        }
+        return retorno;
+    }
+	
 }

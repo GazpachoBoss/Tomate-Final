@@ -74,6 +74,8 @@ public class GestionHorario {
 	public boolean turnoDisponible(int turno) {
 		return consultasPrimaria[turno] < 4;
 	}
+	
+	
 /**Crea el horario de Los medicos de atencion primaria
  @return
  */

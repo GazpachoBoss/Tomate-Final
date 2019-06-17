@@ -21,7 +21,7 @@ public class VistaCitaIssam extends JPanel {
 
 	private JPanel panel;
 	private JButton boton;
-	JButton[][] botonera = new JButton[4][5];
+	private JButton[][] botonera = new JButton[4][5];
 	private JComboBox cmbMedico;
 	private JLabel lblHoraUno;
 	private JLabel lblHoraDos;
@@ -153,7 +153,19 @@ public class VistaCitaIssam extends JPanel {
 
 		}
 	}
+	public void limpiarBotonera() {
+		for (int i = 0; i < botonera.length; i++) {
+			for (int j = 0; j < botonera[i].length; j++) {
+				botonera[i][j].setBackground(new JButton().getBackground());
+			}
+	}
+	}
+	
+	
 
+	public JButton[][] getBotonera() {
+		return botonera;
+	}
 	public JComboBox getCmbMedico() {
 		return cmbMedico;
 	}

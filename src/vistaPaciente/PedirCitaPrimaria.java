@@ -15,9 +15,9 @@ import java.awt.Font;
 import java.awt.BorderLayout;
 
 public class PedirCitaPrimaria extends JPanel {
-	Mensaje mensaje;
-	Seleccion seleccion;
-	VistaCitaIssam horario;
+	private Mensaje mensaje;
+	private Seleccion seleccion;
+	private VistaCitaIssam horario;
 
 	/**
 	 * Create the panel.

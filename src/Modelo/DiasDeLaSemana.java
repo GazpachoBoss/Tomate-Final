@@ -8,7 +8,8 @@ public enum DiasDeLaSemana {
 	private DiasDeLaSemana(int valor) {
 		this.valor=valor;
 	}
-
+	
+	
 	public int getValor() {
 		return valor;
 	}

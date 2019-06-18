@@ -18,7 +18,7 @@ public class Cita implements Serializable {
 		this.idCita = idCita;
 		this.medico = medico;
 		this.paciente = paciente;
-		this.fechaCita = LocalDateTime.of(fechaCita.getYear(),fechaCita.getMonth(),fechaCita.getDayOfMonth(),fechaCita.getHour(),0);
+		this.fechaCita = fechaCita;
 		this.dia = dia;
 	}
 

@@ -125,20 +125,20 @@ public class VistaCitaIssam extends JPanel {
 		}
 	}
 	public void asignarHorario(int[][] matriz) {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[i].length; j++) {
-				botonera[i][j].setVisible(true);
-				botonera[i][j].setBackground(new JButton().getBackground());
-				if (matriz[i][j] == 0) {
-					botonera[i][j].setVisible(false);
-				} else if (matriz[i][j] == 2) {
-					botonera[i][j].setBackground(Color.green);
-				} else if (matriz[i][j] == 3) {
-					botonera[i][j].setBackground(Color.red);
-				}
-			}
-		}
-	}
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                botonera[i][j].setVisible(true);
+                botonera[i][j].setBackground(new JButton().getBackground());
+                if (matriz[i][j] == 0) {
+                    botonera[i][j].setVisible(false);
+                } else if (matriz[i][j] == 2) {
+                    botonera[i][j].setBackground(Color.green);
+                } else if (matriz[i][j] == 3) {
+                    botonera[i][j].setBackground(Color.red);
+                }
+            }
+        }
+    }
 
 	private void crearBotonera() {
 		for (int i = 0; i < 4; i++) {

@@ -27,15 +27,17 @@ class TestAlmacenes{
 	}
 
 	//funciona, aunqu hay que sobreescribir el equals aunque depurando me devolvia el mismo objeto
-	@Ignore
+	@Test
 	void testLeerPaciente() {
-		Paciente paciente = new Paciente("1", "Jesuso sanchez", "calle nabo", "918384992", null);
-		Paciente paciente2 = new Paciente("2", "issam el real", "calle rabano", "9289182829", null);
-
-		almacen.grabar(paciente2);
-
-		assertEquals(paciente, almacen.obtener(paciente.getNombre()));
-		assertEquals(paciente2, almacen.obtener(paciente.getIdPersona()));
+		Paciente paciente=almacen.obtener("107");
+		System.out.println(paciente.getCitas().size());
+		ArrayList<MedicoActivo>medicos=almacenMedicos.obtenerListaMedicosActivos();
+		for (int i = 0; i < medicos.get(1).getHorarioConsulta().getHorarioSemanal().length; i++) {
+			for (int j = 0; j < medicos.get(1).getHorarioConsulta().getHorarioSemanal()[i].length; j++) {
+				System.out.println(medicos.get(1).getHorarioConsulta().getHorarioSemanal()[i][j]);
+			}
+			
+		}
 	}
 
 	//funciona
@@ -65,7 +67,7 @@ class TestAlmacenes{
 		File file3=new File("./Medicos/ListaCirujanos.medico");
 		
 		Medico medico=new Medico("3", "benzema", "calle tortilla", "9882938", Especialidades.AtencionPrimaria);
-		MedicoActivo medicoActivo=new MedicoActivo("4", "vinicius", "calle salmorejo", "81982829", Especialidades.Ginecologia, null, null);
+		MedicoActivo medicoActivo=new MedicoActivo("4", "vinicius", "calle salmorejo", "81982829", Especialidades.Ginecologia);
 		CirujanoActivo cirujano=new CirujanoActivo("5", "lopetegui", "avenida cocido", "92812928392", Especialidades.Cirujia);
 		
 		assertTrue(almacenMedicos.addMedico(medico));
@@ -80,7 +82,7 @@ class TestAlmacenes{
 	//funciona
 	@Ignore
 	void testEliminarMedicos() {
-		MedicoActivo medicoActivo=new MedicoActivo("4", "vinicius", "calle salmorejo", "81982829", Especialidades.Ginecologia, null, null);
+		MedicoActivo medicoActivo=new MedicoActivo("4", "vinicius", "calle salmorejo", "81982829", Especialidades.Ginecologia);
 		CirujanoActivo cirujano=new CirujanoActivo("5", "lopetegui", "avenida cocido", "92812928392", Especialidades.Cirujia);
 		
 		assertFalse(almacenMedicos.eliminarMedicoActivo(medicoActivo));
@@ -105,7 +107,7 @@ class TestAlmacenes{
 		assertFalse(cirujanos.isEmpty());
 	}
 	
-	@Test
+	@Ignore
 	void testHorario() {
 		ArrayList<MedicoActivo> medicosActivos=almacenMedicos.obtenerListaMedicosActivos();
 		

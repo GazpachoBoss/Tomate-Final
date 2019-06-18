@@ -222,7 +222,7 @@ public class ParaUI extends UIGazpacho {
 						getBajaMedico().setTextDireccion(medico.getDireccion());
 						getBajaMedico().setTextTelefono(medico.getTelefono());
 						getBajaMedico().setTextEspecialidad(medico.getEspecialidad().toString());
-//							getBajaMedico().getBajaHorario().setText(medico.getHorario().toString());
+			//			getBajaMedico().getBajaHorario().setText(medico.getHorario().toString());
 					}
 				}
 			}
@@ -311,14 +311,16 @@ public class ParaUI extends UIGazpacho {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						JButton boton = (JButton) e.getSource();
-						for (MedicoActivo medico : almacenMedicos.obtenerListaMedicosActivos()) {
+						for (Iterator<MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos()
+								.iterator(); iterator.hasNext();) {
+							MedicoActivo medico = (MedicoActivo) iterator.next();
 							if(medico.getNombre().equals(getPedirCitaEspecialista().getHorario().getCmbMedico().getSelectedItem())) {
 								System.out.println("Entra");
 								int hora = Integer.valueOf(Character.toString(boton.getName().charAt(0)));
 								int dia = Integer.valueOf(Character.toString(boton.getName().charAt(1)));
 								medico.getHorarioConsulta().seleccionarDia(hora, dia);
 								getPedirCitaEspecialista().getHorario().asignarHorario(medico.getHorarioConsulta().getHorarioSemanal());
-								
+								almacenMedicos.addMedicoActivo(medico);
 							}
 						}
 						
@@ -326,28 +328,31 @@ public class ParaUI extends UIGazpacho {
 				});
 			}
 		}
-
+		
 		getPedirCitaEspecialista().getMensaje().getBtnAplicar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (MedicoActivo medico : almacenMedicos.obtenerListaMedicosActivos()) {
+				for (Iterator<MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos()
+						.iterator(); iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
 					System.out.println(medico.getNombre());
 					System.out.println(medico.getNombre().equals(getPedirCitaEspecialista().getHorario().getCmbMedico().getSelectedItem().toString()));
 					if (medico.getNombre().equals(getPedirCitaEspecialista().getHorario().getCmbMedico().getSelectedItem().toString())) {
+						System.out.println("Entro");
 						getPedirCitaPrimaria().getHorario().limpiarBotonera();
 						medico.getHorarioConsulta().reservarDias();
-						getPedirCitaPrimaria().getHorario()
-								.asignarHorario(medico.getHorarioConsulta().getHorarioSemanal());
-						System.out.println(getPedirCitaEspecialista().getSeleccion().getCmbNombre().getSelectedItem().toString());
+						
 						for (int i = 0; i < medico.getHorarioConsulta().getHorarioSemanal().length; i++) {
 							System.out.println();
 							for (int j = 0; j < medico.getHorarioConsulta().getHorarioSemanal()[i].length; j++) {
 								System.out.print(medico.getHorarioConsulta().getHorarioSemanal()[i][j]);
 							}
-							
 						}
+						almacenMedicos.addMedico(medico);
+						getPedirCitaPrimaria().getHorario()
+								.asignarHorario(medico.getHorarioConsulta().getHorarioSemanal());
 						citas.crearCita(almacenPacientes.obtener(getPedirCitaEspecialista().getSeleccion().getCmbNombre().getSelectedItem().toString()),
 								medico, medico.getHorarioConsulta().getFechaCita(), medico.getHorarioConsulta().getDia());
-						System.out.println("aplicado");
+						almacenPacientes.grabar(almacenPacientes.obtener(getPedirCitaEspecialista().getSeleccion().getCmbNombre().getSelectedItem().toString()));
 				}
 				}
 			}
@@ -357,7 +362,9 @@ public class ParaUI extends UIGazpacho {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				for (MedicoActivo medico : almacenMedicos.obtenerListaMedicosActivos()) {
+				for (Iterator<MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos()
+						.iterator(); iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
 					if (medico.getNombre()
 							.equals(getPedirCitaEspecialista().getHorario().getCmbMedico().getSelectedItem())) {
 						getPedirCitaEspecialista().getHorario()
@@ -372,7 +379,9 @@ public class ParaUI extends UIGazpacho {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				for (MedicoActivo medico : almacenMedicos.obtenerListaMedicosActivos()) {
+				for (Iterator<MedicoActivo> iterator = almacenMedicos.obtenerListaMedicosActivos()
+						.iterator(); iterator.hasNext();) {
+					MedicoActivo medico = (MedicoActivo) iterator.next();
 					if (medico.getNombre()
 							.equals(getPedirCitaPrimaria().getHorario().getCmbMedico().getSelectedItem())) {
 						getPedirCitaPrimaria().getHorario()

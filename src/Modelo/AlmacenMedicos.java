@@ -52,7 +52,9 @@ public class AlmacenMedicos{
 	
 	public boolean addMedicoActivo(MedicoActivo medicoActivo) {
 		boolean anadido=true;
-		
+		if(medicosActivos.contains(medicoActivo)) {
+			medicosActivos.remove(medicoActivo);
+		}
 		anadido=medicosActivos.add(medicoActivo);
 		if(!daoMedicos.grabar(pathMedicosActivos, medicosActivos)) {
 			medicosActivos.remove(medicoActivo);

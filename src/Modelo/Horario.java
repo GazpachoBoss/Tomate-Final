@@ -60,22 +60,23 @@ public class Horario implements Serializable{
 		}
 		return contador<1;
 	}
-	public void seleccionarDia (int x,int y) {
-		if (horarioSemanal[x][y]!=2&&horarioSemanal[x][y]!=3&&canCita()) {
-			horarioSemanal[x][y]=2;
-		}else {
-		horarioSemanal[x][y]=1;
-		}
-	}
-	public void reservarDias() {
-		for (int i = 0; i < horarioSemanal.length; i++) {
-			for (int j = 0; j < horarioSemanal[i].length; j++) {
-				if (horarioSemanal[i][j]==2) {
-					horarioSemanal[i][j]=3;
-				}
-			}
-		}
-	}
+	public void seleccionarDia(int x, int y) {
+        if (horarioSemanal[x][y] != 2 && horarioSemanal[x][y] != 3 && canCita()) {
+            horarioSemanal[x][y] = 2;
+        } else {
+            horarioSemanal[x][y] = 1;
+        }
+    }
+
+    public void reservarDias() {
+        for (int i = 0; i < horarioSemanal.length; i++) {
+            for (int j = 0; j < horarioSemanal[i].length; j++) {
+                if (horarioSemanal[i][j] == 2) {
+                    horarioSemanal[i][j] = 3;
+                }
+            }
+        }
+    }
 	public DiasDeLaSemana getDia() {
         DiasDeLaSemana retorno = null;
         for (int i = 0; i < horarioSemanal.length; i++) {
